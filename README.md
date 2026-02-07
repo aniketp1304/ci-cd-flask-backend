@@ -1,65 +1,123 @@
 # AETHER GRID  
 ### A premium control surface for production backend systems
 
-AETHER GRID is a frontend control surface designed to observe, validate, and interact with backend services operating in real production environments.
+AETHER GRID is a Dockerized backend–frontend system designed to validate, observe, and interact with production-ready backend services.
 
-Rather than focusing on abstract metrics or complex dashboards, AETHER GRID emphasizes **direct operational signals** — service reachability, responsiveness, and controlled API interaction. This mirrors how backend systems are actually verified after deployment in modern DevOps workflows.
-
----
-
-## 🧠 Purpose & Design Philosophy
-
-AETHER GRID is built with **operational clarity** as its primary goal.
-
-In real-world engineering environments, trust in a system is established not through decorative visuals, but through:
-- Clear service availability
-- Predictable behavior after deployment
-- Simple, intentional interaction points
-
-This project reflects that philosophy by keeping the interface minimal, readable, and focused on what matters most: **is the system reachable and behaving as expected?**
+The project emphasizes **operational clarity, deployment confidence, and DevOps discipline** over surface-level features. It reflects how real systems are built, verified, and deployed in professional environments.
 
 ---
 
-## ⚙️ Architecture Overview
+## 🧠 Design Philosophy
 
-Client (Browser)  
-↓  
-AETHER GRID Frontend  
-↓  
-Flask Backend API  
-↓  
-Containerized Runtime (Docker)  
-↓  
-Linux Host / Cloud VM
+In production environments, trust in a system comes from:
+- Predictable deployments
+- Consistent runtime behavior
+- Clear service reachability
 
-The architecture is intentionally simple and portable, ensuring consistent behavior across local development, CI/CD pipelines, and cloud environments.
+AETHER GRID focuses on **direct operational signals** instead of abstract dashboards.  
+The interface exposes service availability and controlled interaction in a calm, intentional way—mirroring how backend systems are validated after deployment.
 
 ---
 
-## 🚀 DevOps & CI/CD Relevance
+## 🏗️ System Architecture
 
-AETHER GRID is structured to integrate naturally into DevOps workflows:
-
-- Designed to validate deployments after CI/CD execution
-- Works consistently across environments due to containerization
-- Provides immediate feedback on backend health
-- Suitable for local simulation as well as cloud deployment
-
-The project prioritizes **deployment confidence and operational visibility**, which are core responsibilities in modern DevOps roles.
+┌─────────────┐
+│   Browser   │
+│  (Frontend) │
+└──────┬──────┘
+│ HTTP
+▼
+┌──────────────────┐
+│  AETHER GRID UI  │
+│  (React + Vite)  │
+│  Dockerized      │
+└──────┬───────────┘
+│ API Calls
+▼
+┌──────────────────┐
+│  Flask Backend   │
+│  Gunicorn (WSGI) │
+│  Non-root User   │
+│  Dockerized      │
+└──────┬───────────┘
+│
+▼
+┌──────────────────┐
+│ Docker Compose   │
+│ Service Network  │
+└──────┬───────────┘
+│
+▼
+┌──────────────────┐
+│  Linux Host / VM │
+│  (Local / CI)    │
+└──────────────────┘
 
 ---
 
-## 🌍 Deployment Model
+## ⚙️ Technology Stack
 
-- Local development (Docker / virtual environments)
-- CI/CD pipeline execution
-- Cloud-ready (any Linux-based VM)
+**Frontend**
+- React (Vite)
+- Premium UI with animated transitions
+- Service health visibility
 
-No environment-specific logic is required, reinforcing portability and predictability.
+**Backend**
+- Flask REST API
+- Gunicorn WSGI server
+- Non-root container execution
+
+**DevOps**
+- Docker (separate frontend & backend images)
+- Docker Compose (service orchestration)
+- GitHub Actions (CI)
+- Scripted local CD simulation
 
 ---
 
-## 👨‍💻 Author
+## 🔁 CI/CD Workflow
 
-**Engineered & operated by Aniket Palsodkar**  
+### Continuous Integration (CI)
+- Triggered on every push to `main`
+- Builds backend Docker image
+- Builds frontend Docker image
+- Validates Docker Compose configuration
+- Fails fast if any build or config breaks
+
+### Continuous Deployment (Local Simulation)
+- Scripted deployment using `scripts/deploy.sh`
+- Stops existing containers
+- Rebuilds images
+- Deploys full stack using Docker Compose
+- Mirrors VM-style deployment flow without cloud dependency
+
+---
+
+## 🚀 Local Deployment
+
+### Deploy the full stack
+```bash
+./scripts/deploy.sh
+
+Access services
+	•	Frontend: http://localhost:5173
+	•	Backend health: http://localhost:8080/health
+
+Stop services
+docker compose down
+🎯 Why This Project Matters
+
+This repository demonstrates how real backend services are:
+	•	Containerized securely
+	•	Orchestrated predictably
+	•	Validated automatically via CI
+	•	Deployed consistently via CD
+
+It prioritizes engineering maturity over demos, making it suitable for production-minded DevOps and cloud roles.
+
+⸻
+
+👨‍💻 Author
+
+Engineered & operated by Aniket Palsodkar
 Cloud • DevOps • Production Systems
