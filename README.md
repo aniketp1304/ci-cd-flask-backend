@@ -19,39 +19,63 @@ The interface exposes service availability and controlled interaction in a calm,
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ System Architecture (Deployment-Oriented)
 
-┌─────────────┐
-│   Browser   │
-│  (Frontend) │
-└──────┬──────┘
-│ HTTP
-▼
-┌──────────────────┐
-│  AETHER GRID UI  │
-│  (React + Vite)  │
-│  Dockerized      │
-└──────┬───────────┘
-│ API Calls
-▼
-┌──────────────────┐
-│  Flask Backend   │
-│  Gunicorn (WSGI) │
-│  Non-root User   │
-│  Dockerized      │
-└──────┬───────────┘
-│
-▼
-┌──────────────────┐
-│ Docker Compose   │
-│ Service Network  │
-└──────┬───────────┘
-│
-▼
-┌──────────────────┐
-│  Linux Host / VM │
-│  (Local / CI)    │
-└──────────────────┘
+AETHER GRID is designed as a **deployment validation layer**, not just a UI connected to an API.
+
+The architecture mirrors how services are verified **after CI/CD execution** in real environments.
+
+┌───────────────────────────────┐
+│        GitHub Repository       │
+│   (Code + Docker Definitions) │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│      GitHub Actions (CI)       │
+│  - Build Backend Image         │
+│  - Build Frontend Image        │
+│  - Validate Docker Compose     │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│   Container Runtime (Docker)   │
+│  - Backend (Gunicorn + Flask)  │
+│  - Frontend (React + Vite)     │
+│  - Isolated Service Network    │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│   Docker Compose Orchestrator  │
+│  - Service Wiring              │
+│  - Port Exposure               │
+│  - Restart Policies            │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│    AETHER GRID Control Plane   │
+│  - Service Reachability Check  │
+│  - Runtime Interaction         │
+│  - Deployment Confidence       │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│     Local Host / VM Runtime    │
+│  (Local CD / VM-style Deploy) │
+└───────────────────────────────┘
+
+This architecture treats the frontend as a **control plane**, not a consumer UI.
+
+The system validates that:
+- Containers are running
+- Services are reachable
+- Runtime behavior matches expectations after deployment
+
+This is how backend systems are verified in real DevOps workflows.
 
 ---
 
