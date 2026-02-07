@@ -82,6 +82,18 @@ No environment-specific changes are required.
 	•	Monitoring & logging integration
 
 ⸻
+## 🚀 Deployment Strategy
+
+This project uses a CI/CD pipeline implemented with GitHub Actions.
+
+- **CI**: Automatically builds and validates the Docker image on every push to `main`
+- **CD**: Executes a simulated deployment workflow that mirrors real production steps
+  (container stop, removal, and redeployment)
+
+The deployment simulation reflects how the service would be deployed on a Linux VM.
+When cloud access is available, the same pipeline can be extended to perform live deployments
+without architectural changes.
+
 
 👨‍💻 Author
 
